@@ -1,0 +1,101 @@
+{
+  "name": "calendar",
+  "version": "0.0.1",
+  "description": "",
+  "jsnext:main": "esm/index.js",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "repository": "https://github.com/tbusser/calendar",
+  "sideEffects": false,
+  "types": "esm/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "./scripts/build.sh",
+    "coverage": "jest --coverage",
+    "start": "parcel ./src/index.html",
+    "test": "jest"
+  },
+  "keywords": [
+    "es6",
+    "pubsub",
+    "typescript"
+  ],
+  "nyc": {
+    "include": [
+      "src/**"
+    ],
+    "extension": [
+      ".ts"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Thijs Busser <tbusser@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
+    "@babel/register": "^7.8.6",
+    "@babel/runtime": "^7.9.6",
+    "@types/jest": "^25.2.1",
+    "@types/lodash": "^4.14.149",
+    "@types/mocha": "^7.0.1",
+    "@types/mustache": "^4.0.1",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "core-js": "^3.6.4",
+    "del": "^3.0.0",
+    "es-dev-server": "^1.45.3",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-inject-partials": "^1.0.4",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-remove-code": "^3.0.4",
+    "gulp-sass": "^4.0.2",
+    "gulp-server-livereload": "^1.9.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "gulp-watch": "^5.0.1",
+    "jest": "^25.2.7",
+    "jest-extended": "^0.11.5",
+    "mustache": "^4.0.1",
+    "mz": "^2.7.0",
+    "node-sass": "^4.9.4",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.3.1",
+    "parcel-plugin-typescript-paths": "^0.1.14",
+    "posthtml-include": "^1.4.3",
+    "typescript": "^3.8.2",
+    "webpack-merge": "^4.2.2",
+    "webpack-stream": "^5.2.1"
+  },
+  "dependencies": {
+    "@ictoanen/pub-sub": "^2.1.0",
+    "js-date-helper": "^1.5.2",
+    "lodash": "^4.17.15"
+  },
+  "staticFiles": {
+    "staticPath": "src/static",
+    "watcherGlob": "**"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ]
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
+}

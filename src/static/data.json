@@ -1,0 +1,64 @@
+{
+    "questions": [
+        {
+            "image": "https://www.ngfgolfregelexamen.nl/images/pic_1956.jpg",
+            "question":
+                "Door jouw slag is er een pitchmark ontstaan op de green. Hoeveel pitchmarks repareer je?",
+            "answers": [
+                {
+                    "value": 1,
+                    "text": "Alleen je eigen pitchmark"
+                },
+                {
+                    "value": 2,
+                    "text": "Je eigen en nog 1 andere"
+                },
+                {
+                    "value": 3,
+                    "text": "Zo veel mogelijk pitchmarks"
+                }
+            ],
+            "correctAnswer": 2
+        },
+        {
+            "image": "https://www.ngfgolfregelexamen.nl/images/pic_1968.jpg",
+            "question":
+                "Er wordt verwacht dat je wacht tot alle medespelers hebben uitgeholed, voordat je naar de volgende hole loopt.",
+            "answers": [
+                {
+                    "value": 1,
+                    "text": "Goed"
+                },
+                {
+                    "value": 2,
+                    "text": "Fout"
+                }
+            ],
+            "correctAnswer": 1
+        },
+        {
+            "image": "https://www.ngfgolfregelexamen.nl/images/pic_1952.jpg",
+            "question":
+                "Je slaat een plag uit de fairway. Wie moet deze plag terugleggen?",
+            "answers": [
+                {
+                    "value": 1,
+                    "text": "Niemand"
+                },
+                {
+                    "value": 2,
+                    "text": "Jijzelf"
+                },
+                {
+                    "value": 3,
+                    "text": "Jouw marker"
+                },
+                {
+                    "value": 4,
+                    "text": "De greenkeeper"
+                }
+            ],
+            "correctAnswer": 3
+        }
+    ]
+}

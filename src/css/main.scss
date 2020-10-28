@@ -1,0 +1,19 @@
+@import
+	"01-settings/color",
+	"01-settings/font-face",
+	"01-settings/font-family";
+
+@import
+	"03-settings/box-sizing";
+
+@import
+	"04-generic/body",
+	"04-generic/page";
+
+.c-validation {
+	display: none;
+}
+.c-validation.is-error {
+	color: red;
+	display: block;
+}

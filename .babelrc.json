@@ -1,0 +1,55 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "debug": true,
+                "targets":
+                {
+                    "esmodules": true
+                },
+                "modules": false
+            }
+        ],
+        "@babel/typescript"
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "@01-global": ["./01-global/*"],
+                    "@02-utilities": ["/02-utilities/*"],
+                    "@03-modules": ["./03-modules/*"]
+                },
+                "extensions": [".js", ".ts"],
+                "root": ["./src/js"]
+            }
+        ],
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-proposal-decorators",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-optional-chaining"
+    ],
+
+    "env": {
+        "es5": {
+            "presets": [[
+                "@babel/preset-env", { "debug": true }
+            ]]
+        },
+        "esm": {
+            "presets": [[
+                "@babel/preset-env",
+                {
+                    "debug": true,
+                    "targets":
+                    {
+                        "esmodules": true
+                    },
+                    "modules": false
+                }
+            ]]
+        }
+    }
+}
