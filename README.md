@@ -1,1 +1,4 @@
-Quiz2
+- Met nvm switchen naar de versie in de .nvmrc file. 
+- Daarna npm i draaien. 
+- Uiteindelijk npm start.
+- restulaat te zien op localhost:1234.
