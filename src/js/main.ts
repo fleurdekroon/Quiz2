@@ -28,6 +28,7 @@ const
 	previousButton: HTMLButtonElement = document.querySelector('.js-previous-button'),
 	totalQuestions = data.questions.length,
 	givenAnswers = new Array(totalQuestions),
+	correctAnswers = new Array(),
 	questionButtons = document.querySelector('.js-question-buttons'),
 	questionPane: HTMLFormElement = document.querySelector('.js-question-pane');
 
@@ -36,12 +37,26 @@ function formControls() {
 		previousButton.disabled = true;
 		nextButton.disabled = false;
 	} else if ((questionIndex + 1) == totalQuestions) {
-		nextButton.innerHTML = "Uitslag"
+		nextButton.innerHTML = "Uitslag";
+		nextButton.classList.add('js-results-button');
+		const
+			resultButton = document.querySelector('.js-results-button');
+
+		resultButton.addEventListener('click', event => {
+			getCorrectAnswers();
+		});
 	}
 	else {
 		previousButton.disabled = false;
 		nextButton.innerHTML = nextButtonText;
+		nextButton.classList.remove('js-results-button');
 	}
+}
+
+function getCorrectAnswers() {
+	data.questions.forEach(item => {
+		correctAnswers.push(item.correctAnswer);
+	});
 }
 
 function getSelectedValue(form: HTMLFormElement) {
@@ -97,14 +112,11 @@ function renderButtons() {
 	let btnIndex = document.querySelector('.js-btn-index-3');
 	btnIndex.addEventListener('click', event => {
 		renderQuestion();
-		console.log(questionIndex);
 	});
 
 }
 
 function storeGivenAnswers(index, value) {
-	//givenAnswers.push(givenAnswer());
-	//givenAnswers.fill(value, index, (index + 1));
 	givenAnswers[index] = value;
 }
 
@@ -127,7 +139,6 @@ questionPane.addEventListener('change', event => {
 
 nextButton.addEventListener('click', event => {
 	if (validate()) {
-
 		storeGivenAnswers(questionIndex, givenAnswer());
 		questionIndex++;
 		initQuestion();
@@ -139,5 +150,15 @@ previousButton.addEventListener('click', event => {
 	initQuestion();
 });
 
+
+
 initQuestion();
 
+// Type examen kiezen
+// Opslaan van correctAnswers in array
+// Switchen tussen de vragen
+// Na het drukken op de uitslag knop in een 'read-only' status komen
+// Na uitslag weergeven hoeveel vragen er in totaal goed waren
+// Na uitslag het weergeven van het juiste antwoord en uitleg
+// Na uitslag in de vraagnummers weergeven wat goed en fout was
+// Na uitslag aanduiden welke antwoord goed was
