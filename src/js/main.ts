@@ -1,7 +1,26 @@
 import Mustache from "mustache";
 import * as data from '../static/data.json';
 
-const templateQuestion = ` 
+
+/* ========================================================================== *\
+	PRIVATE VARIABLES
+\* ========================================================================== */
+
+let
+	questionIndex = 0;
+const
+	cssClasses = {
+		hidden: 'u-hidden'
+	},
+	correctAnswers = new Array(),
+	totalQuestions = data.questions.length,
+	givenAnswers = new Array(totalQuestions),
+	nextButton: HTMLButtonElement = document.querySelector('.js-next-button'),
+	previousButton: HTMLButtonElement = document.querySelector('.js-previous-button'),
+	questionButtons = document.querySelector('.js-question-buttons'),
+	questionPane: HTMLFormElement = document.querySelector('.js-question-pane'),
+	resultsButton: HTMLButtonElement = document.querySelector('.js-results-button'),
+	templateQuestion = ` 
 	  <h2>Vraag {{questionNumber}} van {{totalQuestions}}</h2>
 	  <fieldset> 
 		<legend>{{question}}</legend>
@@ -14,42 +33,32 @@ const templateQuestion = `
 		{{/answers}}
 		<div class="c-validation js-validation">Maak een keuze</div>
 	  </fieldset>
-	`;
-
-const templateButtons = `
+	`,
+	templateButtons = `
 	  {{#questionButtons}}<button type="button" class="js-btn-index-{{.}}">{{.}}</button>{{/questionButtons}}
 	`;
 
-let
-	questionIndex = 0;
-const
-	nextButton: HTMLButtonElement = document.querySelector('.js-next-button'),
-	nextButtonText = nextButton.innerHTML,
-	previousButton: HTMLButtonElement = document.querySelector('.js-previous-button'),
-	totalQuestions = data.questions.length,
-	givenAnswers = new Array(totalQuestions),
-	correctAnswers = new Array(),
-	questionButtons = document.querySelector('.js-question-buttons'),
-	questionPane: HTMLFormElement = document.querySelector('.js-question-pane');
+/* == PRIVATE VARIABLES ===================================================== */
+
+
+
+/* ========================================================================== *\
+	PRIVATE METHODS
+\* ========================================================================== */
 
 function formControls() {
 	if (questionIndex == 0) {
 		previousButton.disabled = true;
 		nextButton.disabled = false;
 	} else if ((questionIndex + 1) == totalQuestions) {
-		nextButton.innerHTML = "Uitslag";
-		nextButton.classList.add('js-results-button');
-		const
-			resultButton = document.querySelector('.js-results-button');
-
-		resultButton.addEventListener('click', event => {
-			getCorrectAnswers();
-		});
+		nextButton.classList.add(cssClasses.hidden);
+		resultsButton.classList.remove(cssClasses.hidden);
 	}
 	else {
 		previousButton.disabled = false;
-		nextButton.innerHTML = nextButtonText;
-		nextButton.classList.remove('js-results-button');
+		nextButton.classList.add(cssClasses.hidden);
+		nextButton.classList.remove(cssClasses.hidden);
+		resultsButton.classList.add(cssClasses.hidden);
 	}
 }
 
@@ -133,6 +142,14 @@ function validate() {
 	return isValid;
 }
 
+/* == PRIVATE METHODS ======================================================= */
+
+
+
+/* ========================================================================== *\
+	EVENT HANDLING
+\* ========================================================================== */
+
 questionPane.addEventListener('change', event => {
 	validate();
 });
@@ -150,9 +167,17 @@ previousButton.addEventListener('click', event => {
 	initQuestion();
 });
 
+/* == EVENT HANDLING ======================================================== */
 
+
+
+/* ========================================================================== *\
+	INITIALIZATION
+\* ========================================================================== */
 
 initQuestion();
+
+/* == INITIALIZATION ======================================================== */
 
 // Type examen kiezen
 // Opslaan van correctAnswers in array
