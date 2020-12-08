@@ -36,7 +36,8 @@ const
 			</li>
 		{{/answers}}
 		</ul>
-
+		<h3>Uitleg</h3>
+		<p>{{explanation}}</p>
 	  </fieldset>
 	`,
 	templateQuestion = ` 
@@ -264,6 +265,6 @@ initQuestion();
 // Active state meegegeven in de buttonreeks waar je op dat moment bent
 // Na het drukken op de uitslag knop in een 'read-only' status komen - CHECK
 // Na uitslag weergeven hoeveel vragen er in totaal goed waren
-// Na uitslag het weergeven van het juiste antwoord en uitleg 
+// Na uitslag het weergeven van het juiste antwoord en uitleg // CHECK
 // Na uitslag in de vraagnummers weergeven wat goed en fout was
 // Na uitslag aanduiden welke antwoord goed was - CHECK
