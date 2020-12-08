@@ -24,7 +24,7 @@ const
 	questionPane: HTMLFormElement = document.querySelector('.js-question-pane'),
 	resultsButton: HTMLButtonElement = document.querySelector('.js-results-button'),
 	templateAnswer = ` 
-	  <h2>Uitslag: [NUMBER] van de {{totalQuestions}} vragen goed beantwoord</h2>
+	  <h2>Uitslag: {{totalCorrectAnswers}} van de {{totalQuestions}} vragen goed beantwoord</h2>
 	  <fieldset> 
 	  	<legend>Vraag {{questionNumber}}</legend>
 		<p>{{question}}</p>
@@ -66,6 +66,19 @@ const
 /* ========================================================================== *\
 	PRIVATE METHODS
 \* ========================================================================== */
+
+function compareAnswers(arrCorrectAnswers, arrGivenAnswers) {
+	let
+		totalCorrectAnswers = 0;
+
+	arrCorrectAnswers.forEach((correctAnswer, index) => {
+		if (correctAnswer === arrGivenAnswers[index]) {
+			totalCorrectAnswers++;
+		}
+	});
+
+	return totalCorrectAnswers;
+}
 
 function formControlsAnswer() {
 	previousQuestionButton.classList.add(cssClasses.hidden);
@@ -146,11 +159,13 @@ function renderAnswer() {
 				}
 			}),
 			totalQuestions,
-			questionNumber: (answerIndex + 1)
+			questionNumber: (answerIndex + 1),
+			totalCorrectAnswers: compareAnswers(correctAnswers, givenAnswers)
 		},
 		html = Mustache.render(templateAnswer, newData);
 
 	questionPane.innerHTML = html;
+	console.log(newData);
 }
 
 function renderQuestion() {
@@ -241,8 +256,11 @@ questionPane.addEventListener('change', event => {
 });
 
 resultsButton.addEventListener('click', event => {
-	getCorrectAnswers();
-	initAnswer();
+	if (validate()) {
+		storeGivenAnswers(questionIndex, givenAnswer());
+		getCorrectAnswers();
+		initAnswer();
+	}
 });
 
 /* == EVENT HANDLING ======================================================== */
@@ -264,7 +282,7 @@ initQuestion();
 // Switchen tussen de vragen
 // Active state meegegeven in de buttonreeks waar je op dat moment bent
 // Na het drukken op de uitslag knop in een 'read-only' status komen - CHECK
-// Na uitslag weergeven hoeveel vragen er in totaal goed waren
+// Na uitslag weergeven hoeveel vragen er in totaal goed waren - CHECK
 // Na uitslag het weergeven van het juiste antwoord en uitleg // CHECK
 // Na uitslag in de vraagnummers weergeven wat goed en fout was
 // Na uitslag aanduiden welke antwoord goed was - CHECK
