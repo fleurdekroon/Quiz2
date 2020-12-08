@@ -7,6 +7,7 @@ import * as data from '../static/data.json';
 \* ========================================================================== */
 
 let
+	answerIndex = 0,
 	questionIndex = 0;
 const
 	cssClasses = {
@@ -15,11 +16,27 @@ const
 	correctAnswers = new Array(),
 	totalQuestions = data.questions.length,
 	givenAnswers = new Array(totalQuestions),
-	nextButton: HTMLButtonElement = document.querySelector('.js-next-button'),
-	previousButton: HTMLButtonElement = document.querySelector('.js-previous-button'),
+	nextAnswerButton: HTMLButtonElement = document.querySelector('.js-next-answer-button'),
+	previousAnswerButton: HTMLButtonElement = document.querySelector('.js-previous-answer-button'),
+	nextQuestionButton: HTMLButtonElement = document.querySelector('.js-next-question-button'),
+	previousQuestionButton: HTMLButtonElement = document.querySelector('.js-previous-question-button'),
 	questionButtons = document.querySelector('.js-question-buttons'),
 	questionPane: HTMLFormElement = document.querySelector('.js-question-pane'),
 	resultsButton: HTMLButtonElement = document.querySelector('.js-results-button'),
+	templateAnswer = ` 
+	  <h2>Vraag {{questionNumber}} van {{totalQuestions}}</h2>
+	  <fieldset> 
+		<legend>{{question}}</legend>
+		<img src="{{image}}" width="300">
+		<ul>
+		{{#answers}}
+		  	<li class="">
+				{{text}}
+			</li>
+		{{/answers}}
+		</ul>
+	  </fieldset>
+	`,
 	templateQuestion = ` 
 	  <h2>Vraag {{questionNumber}} van {{totalQuestions}}</h2>
 	  <fieldset> 
@@ -46,18 +63,34 @@ const
 	PRIVATE METHODS
 \* ========================================================================== */
 
-function formControls() {
+function formControlsAnswer() {
+	previousQuestionButton.classList.add(cssClasses.hidden);
+	nextQuestionButton.classList.add(cssClasses.hidden);
+	resultsButton.classList.add(cssClasses.hidden);
+
+	previousAnswerButton.classList.remove(cssClasses.hidden);
+	nextAnswerButton.classList.remove(cssClasses.hidden);
+
+	if (answerIndex == 0) {
+		previousAnswerButton.disabled = true;
+		nextAnswerButton.disabled = false;
+	} else if ((answerIndex + 1) == totalQuestions) {
+		previousAnswerButton.disabled = false;
+		nextAnswerButton.disabled = true;
+	}
+}
+
+function formControlsQuestion() {
 	if (questionIndex == 0) {
-		previousButton.disabled = true;
-		nextButton.disabled = false;
+		previousQuestionButton.disabled = true;
+		nextQuestionButton.disabled = false;
 	} else if ((questionIndex + 1) == totalQuestions) {
-		nextButton.classList.add(cssClasses.hidden);
+		nextQuestionButton.classList.add(cssClasses.hidden);
 		resultsButton.classList.remove(cssClasses.hidden);
 	}
 	else {
-		previousButton.disabled = false;
-		nextButton.classList.add(cssClasses.hidden);
-		nextButton.classList.remove(cssClasses.hidden);
+		previousQuestionButton.disabled = false;
+		nextQuestionButton.classList.remove(cssClasses.hidden);
 		resultsButton.classList.add(cssClasses.hidden);
 	}
 }
@@ -84,10 +117,29 @@ function givenAnswer() {
 	return chosenRadio;
 }
 
+function initAnswer() {
+	renderAnswer();
+	renderButtons();
+	formControlsAnswer();
+}
+
 function initQuestion() {
 	renderQuestion();
 	renderButtons();
-	formControls();
+	formControlsQuestion();
+}
+
+function renderAnswer() {
+	const
+		currentQuestion = data.questions[answerIndex],
+		newData = {
+			...currentQuestion,
+			totalQuestions
+		},
+		//currentAnswer = data.questions[answerIndex].correctAnswer,
+		html = Mustache.render(templateAnswer, newData);
+
+	questionPane.innerHTML = html;
 }
 
 function renderQuestion() {
@@ -150,11 +202,17 @@ function validate() {
 	EVENT HANDLING
 \* ========================================================================== */
 
-questionPane.addEventListener('change', event => {
-	validate();
+nextAnswerButton.addEventListener('click', event => {
+	answerIndex++;
+	initAnswer();
 });
 
-nextButton.addEventListener('click', event => {
+previousAnswerButton.addEventListener('click', event => {
+	answerIndex--;
+	initAnswer();
+});
+
+nextQuestionButton.addEventListener('click', event => {
 	if (validate()) {
 		storeGivenAnswers(questionIndex, givenAnswer());
 		questionIndex++;
@@ -162,9 +220,18 @@ nextButton.addEventListener('click', event => {
 	}
 });
 
-previousButton.addEventListener('click', event => {
+previousQuestionButton.addEventListener('click', event => {
 	questionIndex--;
 	initQuestion();
+});
+
+questionPane.addEventListener('change', event => {
+	validate();
+});
+
+resultsButton.addEventListener('click', event => {
+	getCorrectAnswers();
+	initAnswer();
 });
 
 /* == EVENT HANDLING ======================================================== */
@@ -180,7 +247,7 @@ initQuestion();
 /* == INITIALIZATION ======================================================== */
 
 // Type examen kiezen
-// Opslaan van correctAnswers in array
+// Opslaan van correctAnswers in array - CHECK!
 // Switchen tussen de vragen
 // Na het drukken op de uitslag knop in een 'read-only' status komen
 // Na uitslag weergeven hoeveel vragen er in totaal goed waren
