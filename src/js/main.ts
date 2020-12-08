@@ -30,7 +30,7 @@ const
 		<img src="{{image}}" width="300">
 		<ul>
 		{{#answers}}
-		  	<li class="">
+		  	<li class="{{#currentCorrectAnswer}}is-active{{/currentCorrectAnswer}}">
 				{{text}}
 			</li>
 		{{/answers}}
@@ -131,12 +131,18 @@ function initQuestion() {
 
 function renderAnswer() {
 	const
+		currentCorrectAnswer = data.questions[answerIndex].correctAnswer,
 		currentQuestion = data.questions[answerIndex],
 		newData = {
 			...currentQuestion,
+			answers: currentQuestion.answers.map(answer => {
+				return {
+					...answer,
+					currentCorrectAnswer: answer.value === currentCorrectAnswer
+				}
+			}),
 			totalQuestions
 		},
-		//currentAnswer = data.questions[answerIndex].correctAnswer,
 		html = Mustache.render(templateAnswer, newData);
 
 	questionPane.innerHTML = html;
@@ -247,10 +253,12 @@ initQuestion();
 /* == INITIALIZATION ======================================================== */
 
 // Type examen kiezen
+// image ophalen vanuit ander endpoint
 // Opslaan van correctAnswers in array - CHECK!
 // Switchen tussen de vragen
-// Na het drukken op de uitslag knop in een 'read-only' status komen
+// Active state meegegeven in de buttonreeks waar je op dat moment bent
+// Na het drukken op de uitslag knop in een 'read-only' status komen - CHECK
 // Na uitslag weergeven hoeveel vragen er in totaal goed waren
-// Na uitslag het weergeven van het juiste antwoord en uitleg
+// Na uitslag het weergeven van het juiste antwoord en uitleg 
 // Na uitslag in de vraagnummers weergeven wat goed en fout was
-// Na uitslag aanduiden welke antwoord goed was
+// Na uitslag aanduiden welke antwoord goed was - CHECK
