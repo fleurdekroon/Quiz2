@@ -24,9 +24,10 @@ const
 	questionPane: HTMLFormElement = document.querySelector('.js-question-pane'),
 	resultsButton: HTMLButtonElement = document.querySelector('.js-results-button'),
 	templateAnswer = ` 
-	  <h2>Vraag {{questionNumber}} van {{totalQuestions}}</h2>
+	  <h2>Uitslag: [NUMBER] van de {{totalQuestions}} vragen goed beantwoord</h2>
 	  <fieldset> 
-		<legend>{{question}}</legend>
+	  	<legend>Vraag {{questionNumber}}</legend>
+		<p>{{question}}</p>
 		<img src="{{image}}" width="300">
 		<ul>
 		{{#answers}}
@@ -35,12 +36,14 @@ const
 			</li>
 		{{/answers}}
 		</ul>
+
 	  </fieldset>
 	`,
 	templateQuestion = ` 
-	  <h2>Vraag {{questionNumber}} van {{totalQuestions}}</h2>
+	  <h2>[titel van de vragenset]</h2>
 	  <fieldset> 
-		<legend>{{question}}</legend>
+		<legend>Vraag {{questionNumber}} van {{totalQuestions}}</legend>
+		<p>{{question}}</p>
 		<img src="{{image}}" width="300">
 		{{#answers}}
 		  <div>
@@ -141,7 +144,8 @@ function renderAnswer() {
 					currentCorrectAnswer: answer.value === currentCorrectAnswer
 				}
 			}),
-			totalQuestions
+			totalQuestions,
+			questionNumber: (answerIndex + 1)
 		},
 		html = Mustache.render(templateAnswer, newData);
 
@@ -252,6 +256,7 @@ initQuestion();
 
 /* == INITIALIZATION ======================================================== */
 
+// Titel van type examen weergeven
 // Type examen kiezen
 // image ophalen vanuit ander endpoint
 // Opslaan van correctAnswers in array - CHECK!
