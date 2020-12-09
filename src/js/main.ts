@@ -13,9 +13,9 @@ const
 	cssClasses = {
 		hidden: 'u-hidden'
 	},
-	correctAnswers = new Array(),
-	totalQuestions = data.questions.length,
-	givenAnswers = new Array(totalQuestions),
+	correctAnswers: number[] = new Array(),
+	totalQuestions: number = data.questions.length,
+	givenAnswers: number[] = new Array(totalQuestions),
 	nextAnswerButton: HTMLButtonElement = document.querySelector('.js-next-answer-button'),
 	previousAnswerButton: HTMLButtonElement = document.querySelector('.js-previous-answer-button'),
 	nextQuestionButton: HTMLButtonElement = document.querySelector('.js-next-question-button'),
@@ -23,7 +23,7 @@ const
 	questionButtons = document.querySelector('.js-question-buttons'),
 	questionPane: HTMLFormElement = document.querySelector('.js-question-pane'),
 	resultsButton: HTMLButtonElement = document.querySelector('.js-results-button'),
-	templateAnswer = ` 
+	templateAnswer: string = ` 
 	  <h2>Uitslag: {{totalCorrectAnswers}} van de {{totalQuestions}} vragen goed beantwoord</h2>
 	  <fieldset> 
 	  	<legend>Vraag {{questionNumber}}</legend>
@@ -40,7 +40,7 @@ const
 		<p>{{explanation}}</p>
 	  </fieldset>
 	`,
-	templateQuestion = ` 
+	templateQuestion: string = ` 
 	  <h2>[titel van de vragenset]</h2>
 	  <fieldset> 
 		<legend>Vraag {{questionNumber}} van {{totalQuestions}}</legend>
@@ -55,7 +55,7 @@ const
 		<div class="c-validation js-validation">Maak een keuze</div>
 	  </fieldset>
 	`,
-	templateButtons = `
+	templateButtons: string = `
 	  {{#questionButtons}}<button type="button" class="js-btn-index-{{.}}">{{.}}</button>{{/questionButtons}}
 	`;
 
@@ -67,7 +67,11 @@ const
 	PRIVATE METHODS
 \* ========================================================================== */
 
-function compareAnswers(arrCorrectAnswers, arrGivenAnswers) {
+function compareAnswers(arrCorrectAnswers: number[], arrGivenAnswers: number[]): number {
+	// return arrCorrectAnswers.reduce((count, correctAnswer, index) => {
+	// 	return correctAnswer === arrGivenAnswers[index] ? count++ : count
+	// }, 0);
+
 	let
 		totalCorrectAnswers = 0;
 
@@ -197,7 +201,7 @@ function renderButtons() {
 	questionButtons.innerHTML = html;
 
 	let btnIndex = document.querySelector('.js-btn-index-3');
-	btnIndex.addEventListener('click', event => {
+	btnIndex.addEventListener('click', () => {
 		renderQuestion();
 	});
 
@@ -228,17 +232,17 @@ function validate() {
 	EVENT HANDLING
 \* ========================================================================== */
 
-nextAnswerButton.addEventListener('click', event => {
+nextAnswerButton.addEventListener('click', () => {
 	answerIndex++;
 	initAnswer();
 });
 
-previousAnswerButton.addEventListener('click', event => {
+previousAnswerButton.addEventListener('click', () => {
 	answerIndex--;
 	initAnswer();
 });
 
-nextQuestionButton.addEventListener('click', event => {
+nextQuestionButton.addEventListener('click', () => {
 	if (validate()) {
 		storeGivenAnswers(questionIndex, givenAnswer());
 		questionIndex++;
@@ -246,16 +250,16 @@ nextQuestionButton.addEventListener('click', event => {
 	}
 });
 
-previousQuestionButton.addEventListener('click', event => {
+previousQuestionButton.addEventListener('click', () => {
 	questionIndex--;
 	initQuestion();
 });
 
-questionPane.addEventListener('change', event => {
+questionPane.addEventListener('change', () => {
 	validate();
 });
 
-resultsButton.addEventListener('click', event => {
+resultsButton.addEventListener('click', () => {
 	if (validate()) {
 		storeGivenAnswers(questionIndex, givenAnswer());
 		getCorrectAnswers();
